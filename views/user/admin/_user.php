@@ -12,5 +12,3 @@
 <?= $form->field($user, 'password')->passwordInput() ?>
 <?= $form->field($user, 'notifications_email')->checkbox() ?>
 <?= $form->field($user, 'notifications_push')->checkbox() ?>
-
-<?php // $form->field($user, 'is_manager')->checkbox(['is_manager' => 'Менеджер']) ?>

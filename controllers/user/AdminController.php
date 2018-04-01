@@ -10,14 +10,18 @@ use yii\filters\VerbFilter;
 use yii\helpers\Url;
 
 
-
+/**
+ * Переопределяем частично CRUD контроллер пользователей
+ *
+ * Class AdminController
+ * @package app\controllers\user
+ */
 class AdminController extends BaseAdminController
 {
 
     /** @inheritdoc */
     public function behaviors()
     {
-        //return parent::behaviors();
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -51,7 +55,7 @@ class AdminController extends BaseAdminController
 
 
     /**
-     * Lists all User models.
+     * Переопределяем для добавления виджетов модальных окон
      *
      * @return mixed
      */
@@ -71,8 +75,7 @@ class AdminController extends BaseAdminController
 
 
     /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'index' page.
+     * Переопределяем для работы в модальном окне
      *
      * @return mixed
      */
@@ -94,15 +97,11 @@ class AdminController extends BaseAdminController
             $this->trigger(self::EVENT_AFTER_CREATE, $event);
             return $this->redirect('index');
         }
-
-        return $this->render('create', [
-            'user' => $user,
-        ]);
     }
 
 
     /**
-     * Updates an existing User model.
+     * Переопределяем для работы в модальном окне
      *
      * @param int $id
      *
@@ -123,9 +122,5 @@ class AdminController extends BaseAdminController
             $this->trigger(self::EVENT_AFTER_UPDATE, $event);
             return $this->redirect('index');
         }
-
-        return $this->render('_account', [
-            'user' => $user,
-        ]);
     }
 }

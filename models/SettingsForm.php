@@ -9,7 +9,7 @@ use dektrium\user\Module;
 use Yii;
 
 /**
- * SettingsForm gets user's username, email and password and changes them.
+ * Унаследовано для добавления полей об оповещение по email и push
  *
  * @property User $user
  *
@@ -57,8 +57,9 @@ class SettingsForm extends BaseSettingsForm
             $this->user->scenario = 'settings';
             $this->user->username = $this->username;
             $this->user->password = $this->new_password;
-            $this->user->notifications_email = $this->notifications_email;
-            $this->user->notifications_push = $this->notifications_push;
+            $form = Yii::$app->request->post('settings-form');
+            $this->user->notifications_email = $form['notifications_email'];
+            $this->user->notifications_push = $form['notifications_push'];
             if ($this->email == $this->user->email && $this->user->unconfirmed_email != null) {
                 $this->user->unconfirmed_email = null;
             } elseif ($this->email != $this->user->email) {

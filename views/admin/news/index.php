@@ -46,6 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'date',
                 [
                     'label' => 'Активна',
+                    'attribute' => 'is_active',
                     'format' => 'raw',
                     'filter' => [0 => 'Нет', 1 => 'Да'],
                     'value' => function ($model) {

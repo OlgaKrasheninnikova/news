@@ -70,15 +70,11 @@ class NewsSearch extends Model
         $modelClass = $query->modelClass;
         $table_name = $modelClass::tableName();
 
-        if ($this->date !== null) {
-            $date = strtotime($this->date);
-            $query->andFilterWhere(['between', $table_name . '.date', $date, $date + 3600 * 24]);
-        }
-
         $query->andFilterWhere(['like', $table_name . '.name', $this->name])
               ->andFilterWhere(['like', $table_name . '.description', $this->description])
+              ->andFilterWhere(['like', $table_name . '.date', $this->date])
               ->andFilterWhere([$table_name . '.id' => $this->id])
-              ->andFilterWhere([$table_name . 'is_active' => $this->is_active]);
+              ->andFilterWhere([$table_name . '.is_active' => $this->is_active]);
 
         return $dataProvider;
     }

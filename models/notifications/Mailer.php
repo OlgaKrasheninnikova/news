@@ -2,8 +2,10 @@
 
 namespace app\models\notifications;
 
+use app\helpers\Config;
 use app\models\News;
 use app\models\User;
+use app\models\UserManager;
 
 /**
  * Class Mailer. Для оповещений по email.
@@ -13,13 +15,16 @@ use app\models\User;
 class Mailer extends NotifyMethod
 {
 
+    /**
+     * @var \yii\mail\MailerInterface
+     */
     private $mailerComponent;
 
+    /**
+     * @var string
+     */
     private $viewPath = '@app/views/mail';
 
-    private $senderEmail = 'news-site@site.com';
-
-    private $newsItemSubject = 'На сайте появилась новость';
 
     public function __construct()
     {
@@ -31,7 +36,7 @@ class Mailer extends NotifyMethod
      * @return array
      */
     public function getUsersListToNotifyAboutNewsItem() {
-        return User::getListToNotifyByEmail();
+        return UserManager::getListToNotifyByEmail();
     }
 
     /**
@@ -41,7 +46,8 @@ class Mailer extends NotifyMethod
      * @param News $item
      */
     public function notifyAboutNewsItem(User $user, News $item) {
-        $this->sendMessage($user->getEmail(), $this->newsItemSubject, 'news_notify',
+        $subject = Config::getInstance()->getParam('newsItemLetterSubject', 'notifications', 'Новая новость');
+        $this->sendMessage($user->getEmail(), $subject, 'news_notify',
             [
                 'userName' => $user->getName(),
                 'name' => $item->getName(),
@@ -59,12 +65,10 @@ class Mailer extends NotifyMethod
      */
     private function sendMessage($to, $subject, $view, $params = [])
     {
-        $mailer = $this->mailerComponent;
-        //$mailer->getView()->theme = Yii::$app->view->theme;
-
-        return $mailer->compose(['html' => $view, 'text' => $view], $params)
+        $adminEmail = Config::getInstance()->getParam('adminEmail', 'notifications', 'admin@admin.ru') ;
+        return $this->mailerComponent->compose(['html' => $view, 'text' => $view], $params)
             ->setTo($to)
-            ->setFrom($this->senderEmail)
+            ->setFrom( $adminEmail )
             ->setSubject($subject)
             ->send();
     }

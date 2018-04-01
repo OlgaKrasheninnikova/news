@@ -2,8 +2,6 @@
 
 namespace app\controllers;
 
-use dektrium\user\models\Profile;
-use dektrium\user\models\User;
 use Yii;
 use app\models\News;
 use yii\data\ActiveDataProvider;
@@ -11,16 +9,13 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\helpers\Config;
 
 /**
  * NewsController implements the CRUD actions for News model.
  */
 class NewsController extends Controller
 {
-
-    const ITEMS_ON_PAGE = [6, 12, 24];
-
-    const ITEMS_ON_PAGE_DEFAULT = 12;
 
     /**
      * @inheritdoc
@@ -54,15 +49,7 @@ class NewsController extends Controller
      */
     public function actionIndex()
     {
-
-        if (\Yii::$app->user->can('createNews')) {
-            echo 'ok';
-        } else {
-            echo 'no';
-        }
-
-
-        $numOnPage = $_GET['per-page'] ?? self::ITEMS_ON_PAGE_DEFAULT;
+        $numOnPage = Yii::$app->request->get('per-page') ?? Config::getInstance()->getParam('itemsOnPageDefault', 'news');
         $dataProvider = new ActiveDataProvider([
             'query' => News::find()->where(['is_active' => true]),
             'pagination' => [
@@ -71,7 +58,7 @@ class NewsController extends Controller
         ]);
 
         return $this->render('index', [
-            'itemsOnPage' => self::ITEMS_ON_PAGE,
+            'itemsOnPage' => Config::getInstance()->getParam('itemsOnPage', 'news'),
             'dataProvider' => $dataProvider,
         ]);
     }

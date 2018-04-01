@@ -33,6 +33,7 @@ class NewsController extends Controller
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
+                    //редактировать (а значит и активировать) можно только собственные новости
                     [
                         'allow' => true,
                         'actions' => ['update', 'activation'],
@@ -41,6 +42,7 @@ class NewsController extends Controller
                             return ['news' => News::findOne(['id' => Yii::$app->request->get('id')])];
                         },
                     ],
+                    //удалять можно только собственные новости
                     [
                         'allow' => true,
                         'actions' => ['delete'],

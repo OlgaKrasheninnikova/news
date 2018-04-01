@@ -4,6 +4,7 @@ namespace app\models\notifications;
 
 use app\models\News;
 use app\models\User;
+use app\models\UserManager;
 
 /**
  * Class Pusher. Для push опоавещений в браузере
@@ -20,7 +21,7 @@ class Pusher extends NotifyMethod
      * @return array
      */
     public function getUsersListToNotifyAboutNewsItem() {
-        return User::getListToNotifyByPush();
+        return UserManager::getListToNotifyByPush();
     }
 
 
