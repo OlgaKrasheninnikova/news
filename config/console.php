@@ -68,7 +68,7 @@ if (YII_ENV_DEV) {
     $config['modules']['user'] = [
         'class' => 'dektrium\user\Module',
         'modelMap' => [
-            'User' => 'app\models\UserManager',
+            'User' => 'app\models\User',
             'SettingsForm' => 'app\models\SettingsForm',
         ],
         'controllerMap' => [

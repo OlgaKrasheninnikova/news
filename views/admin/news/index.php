@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'image',
                     'format' => 'raw',
                     'value' => function ($model) use ($smallImgPath) {
-                         return "<img alt='Изображение' src='/uploads/news/small/{$model->image}' />";
+                         return "<img alt='Изображение' src='/{$smallImgPath}{$model->image}' />";
                     }
                 ],
                 'date',
