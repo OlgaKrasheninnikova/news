@@ -1,7 +1,6 @@
 <?php
 
 use yii\bootstrap\ActiveForm;
-use yii\bootstrap\Nav;
 use yii\helpers\Html;
 
 /**
@@ -18,29 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <div class="row">
-    <div class="col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <?= Nav::widget([
-                    'options' => [
-                        'class' => 'nav-pills nav-stacked',
-                    ],
-                    'items' => [
-                        ['label' => Yii::t('user', 'Account details'), 'url' => ['/user/admin/create']],
-                        ['label' => Yii::t('user', 'Profile details'), 'options' => [
-                            'class' => 'disabled',
-                            'onclick' => 'return false;',
-                        ]],
-                        ['label' => Yii::t('user', 'Information'), 'options' => [
-                            'class' => 'disabled',
-                            'onclick' => 'return false;',
-                        ]],
-                    ],
-                ]) ?>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-body">
                 <div class="alert alert-info">

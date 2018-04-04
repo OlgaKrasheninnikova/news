@@ -12,7 +12,7 @@ use kartik\file\FileInput;
 
 <div class="news-form">
 
-    <?php $form = ActiveForm::begin(['action' => $action]); ?>
+    <?php $form = ActiveForm::begin(['action' => $action, 'options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true])->label('Заголовок') ?>
 
@@ -20,14 +20,14 @@ use kartik\file\FileInput;
 
     <?php // $form->field($model, 'image')->fileInput()->label('Изображение') ?>
 
-    <?= $form->field($model, 'image')->widget(FileInput::classname(), [
-    'options' => ['accept' => 'image/*'],
+    <?= $form->field($model, 'image')->widget(FileInput::class, [
+    'options' => ['accept' => 'image/*', 'id' => 'image-'.$model->id],
     ]); ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6])->label('Полный текст новости') ?>
 
     <?= $form->field($model, 'date')->widget(
-        DatePicker::className(), [
+        DatePicker::class, [
         // inline too, not bad
         //'inline' => true,
         // modify template for custom rendering

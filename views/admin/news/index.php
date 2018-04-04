@@ -42,7 +42,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
                 'name',
                 'description',
-                'image',
+                [
+                    'label' => 'Изображение',
+                    'attribute' => 'image',
+                    'format' => 'raw',
+                    'value' => function ($model) use ($smallImgPath) {
+                         return "<img alt='Изображение' src='/uploads/news/small/{$model->image}' />";
+                    }
+                ],
                 'date',
                 [
                     'label' => 'Активна',
@@ -53,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         $label = $model->is_active ? 'Да' : 'Нет';
                         if (Yii::$app->user->can('updateNews', ['news' => $model])) {
                             $value = $model->is_active ? 0 : 1;
-                            return Html::a($label, "#", ['class' => 'activation', 'rel' => $value, 'data' => $model->id ]);
+                            return Html::a($label, "javascript:void(0)", ['class' => 'activation', 'rel' => $value, 'data' => $model->id ]);
                         } else {
                             return $label;
                         }

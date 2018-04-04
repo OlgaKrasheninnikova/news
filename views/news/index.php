@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'pager' => [
                 'hideOnSinglePage' => false
         ],
+        'viewParams' => ['imgPath' => $imgPath]
 
     ]) ?>
 

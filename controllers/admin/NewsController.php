@@ -2,7 +2,9 @@
 
 namespace app\controllers\admin;
 
+use app\helpers\Config;
 use app\models\NewsSearch;
+use app\models\UploadForm;
 use dektrium\user\models\User;
 use Yii;
 use app\models\News;
@@ -12,6 +14,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\notifications\NotifyManager;
+use yii\web\UploadedFile;
+use yii\imagine\Image;
+use Imagine\Image\Box;
 
 /**
  * NewsAdminController implements the CRUD actions for News model.
@@ -25,13 +30,13 @@ class NewsController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     //редактировать (а значит и активировать) можно только собственные новости
                     [
@@ -74,7 +79,7 @@ class NewsController extends Controller
     public function actionIndex()
     {
         Url::remember('', 'actions-redirect');
-        $searchModel  = \Yii::createObject(NewsSearch::className());
+        $searchModel  = \Yii::createObject(NewsSearch::class);
         $dataProvider = $searchModel->search(\Yii::$app->request->get());
         $dataProvider->pagination->pageSize= 10;
 
@@ -83,7 +88,7 @@ class NewsController extends Controller
             'searchModel'  => $searchModel,
             'newItemModel' => new News(),
             'canCreate' => \Yii::$app->user->can('createNews'),
-            //'permissions' => Helper::getPermissionsForNews($dataProvider, \Yii::$app->user)
+            'smallImgPath' => Config::getInstance()->getSmallImgPath()
         ]);
     }
 
@@ -103,6 +108,7 @@ class NewsController extends Controller
 
         return $this->render('view', [
             'model' => $item,
+            'imgPath' => Config::getInstance()->getBigImgPath()
         ]);
     }
 
@@ -119,7 +125,12 @@ class NewsController extends Controller
             $model->load(Yii::$app->request->post());
             $model->setAttribute('created_user_id', Yii::$app->user->id);
             $model->setAttribute('created_at', date('Y-m-d H:i:s'));
+            $model->image = UploadedFile::getInstance($model, 'image');
             if ($model->save()) {
+                if ($imageName = $model->upload()) {
+                    $model->image = $imageName;
+                    $model->save();
+                }
                 $notifyManager = new NotifyManager();
                 $notifyManager->notifyAboutNewsItem($model);
                 return $this->redirect('index');
@@ -139,13 +150,23 @@ class NewsController extends Controller
         $model = $this->findModel($id);
 
         if (Yii::$app->request->post()) {
+            $oldFileName = $model->image;
             $model->load(Yii::$app->request->post());
             $model->setAttribute('updated_user_id', Yii::$app->user->id);
             $model->setAttribute('updated_at', date('Y-m-d H:i:s'));
+
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if ($imageName = $model->upload()) {
+                $model->image = $imageName;
+            } else {
+                $model->image = $oldFileName;
+            }
+
             $model->save();
             return $this->redirect('index');
         }
     }
+
 
     /**
      * Deletes an existing News model.

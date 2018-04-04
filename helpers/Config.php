@@ -54,4 +54,33 @@ class Config {
             return $default;
         }
     }
+
+    /**
+     * @return string
+     * @throws InvalidConfigException
+     */
+    public function getRootImgPath() {
+        $imgPathConfig = $this->getParam('path', 'images');
+        return $imgPathConfig['root'];
+    }
+
+    /**
+     * @return string
+     * @throws InvalidConfigException
+     */
+    public function getSmallImgPath() {
+        $imgPathConfig = $this->getParam('path', 'images');
+        return $imgPathConfig['root'] . $imgPathConfig['small'];
+    }
+
+    /**
+     * @return string
+     * @throws InvalidConfigException
+     */
+    public function getBigImgPath() {
+        $imgPathConfig = $this->getParam('path', 'images');
+        return $imgPathConfig['root'] . $imgPathConfig['big'];
+
+    }
+
 }

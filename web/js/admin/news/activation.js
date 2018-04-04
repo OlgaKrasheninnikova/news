@@ -16,6 +16,7 @@ function onOffClick() {
 
 function initActivation() {
     $('.activation').click( onOffClick)
+    return false;
 }
 $(document).on('pjax:success', function() {
     initActivation()

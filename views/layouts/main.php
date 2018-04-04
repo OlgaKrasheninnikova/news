@@ -44,8 +44,10 @@ AppAsset::register($this);
         $items[] = ['label' => 'Восстановить пароль', 'url' => ['/user/recovery/request']];
     } else {
         $items[] = ['label' => 'Профиль', 'url' => ['/user/settings/account']];
-        $items[] = ['label' => 'Панель управления', 'url' => ['/admin/news']];
         $items[] = ['label' => 'Выйти', 'url' => '/user/security/logout', 'linkOptions' => ['data-method' => 'post']];
+        if (Yii::$app->user->can('manager')) {
+            $items[] = ['label' => 'Панель управления', 'url' => ['/admin/news']];
+        }
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

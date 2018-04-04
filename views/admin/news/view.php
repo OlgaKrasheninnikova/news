@@ -21,7 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'description',
-            'image',
+            [                      // the owner name of the model
+                'label' => 'Изображение',
+                'value' => "<img src='/{$imgPath}{$model->image}' />",
+                'format' => 'raw'
+            ],
             'text:ntext',
             'date',
             'is_active',

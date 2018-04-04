@@ -1,7 +1,6 @@
 <?php
 
 use yii\grid\GridView;
-use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
 use \yii\bootstrap\Modal;
@@ -14,7 +13,6 @@ use \yii\bootstrap\Modal;
  */
 
 $this->title = Yii::t('user', 'Управление пользователями');
-//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <p>
     <?php
@@ -100,7 +98,7 @@ $this->title = Yii::t('user', 'Управление пользователями
         ],
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{resend_password} {updateModal} {view} {delete}',
+            'template' => '{resend_password} {updateModal} {delete}',
             'buttons' => [
                 'resend_password' => function ($url, $model, $key) {
                     if (!$model->isAdmin) {

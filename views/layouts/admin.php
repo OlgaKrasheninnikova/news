@@ -36,12 +36,14 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+    Yii::$app->user->can('admin') ? ['label' => 'Пользователи', 'url' => ['/admin/users']] : [];
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/']],
             ['label' => 'Новости', 'url' => ['/admin/news']],
-            ['label' => 'Пользователи', 'url' => ['/admin/users']],
+            Yii::$app->user->can('admin') ? ['label' => 'Пользователи', 'url' => ['/admin/users']] : '',
         ],
     ]);
     NavBar::end();

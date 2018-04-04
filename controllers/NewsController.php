@@ -24,13 +24,13 @@ class NewsController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'only' => ['view'],
                 'rules' => [
                         [
@@ -51,7 +51,7 @@ class NewsController extends Controller
     {
         $numOnPage = Yii::$app->request->get('per-page') ?? Config::getInstance()->getParam('itemsOnPageDefault', 'news');
         $dataProvider = new ActiveDataProvider([
-            'query' => News::find()->where(['is_active' => true]),
+            'query' => News::find()->where(['is_active' => true])->orderBy(['date' => 'ASC']),
             'pagination' => [
                 'pageSize' => $numOnPage,
             ],
@@ -60,6 +60,7 @@ class NewsController extends Controller
         return $this->render('index', [
             'itemsOnPage' => Config::getInstance()->getParam('itemsOnPage', 'news'),
             'dataProvider' => $dataProvider,
+            'imgPath' => Config::getInstance()->getSmallImgPath()
         ]);
     }
 
@@ -73,6 +74,7 @@ class NewsController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'imgPath' => Config::getInstance()->getBigImgPath()
         ]);
     }
 
