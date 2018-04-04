@@ -5,10 +5,12 @@ use \yii\helpers\Url;
 use \yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
+use \app\models\UserManager;
 
-$this->registerJsFile('/js/admin/news/activation.js',  ['depends' =>'yii\web\JqueryAsset']);
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->registerJsFile('/js/admin/news/activation.js',  ['depends' =>'yii\web\JqueryAsset']);
 
 $this->title = 'Новости';
 $this->params['breadcrumbs'][] = $this->title;
@@ -58,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'filter' => [0 => 'Нет', 1 => 'Да'],
                     'value' => function ($model) {
                         $label = $model->is_active ? 'Да' : 'Нет';
-                        if (Yii::$app->user->can('updateNews', ['news' => $model])) {
+                        if (Yii::$app->user->can(UserManager::PERMISSION_UPDATE_NEWS, ['news' => $model])) {
                             $value = $model->is_active ? 0 : 1;
                             return Html::a($label, "javascript:void(0)", ['class' => 'activation', 'rel' => $value, 'data' => $model->id ]);
                         } else {
@@ -72,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'template' => '{updateModal} {deleteCustom} {view}',
                         'buttons' => [
                             'updateModal' => function ($url, $model, $key) {
-                                if (!Yii::$app->user->can('updateNews', ['news' => $model])) {
+                                if (!Yii::$app->user->can(UserManager::PERMISSION_UPDATE_NEWS, ['news' => $model])) {
                                     return '';
                                 }
                                 ob_start();
@@ -91,7 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 },
                             'deleteCustom' => function ($url, $model, $key)  {
-                                if (!Yii::$app->user->can('deleteNews', ['news' => $model])) {
+                                if (!Yii::$app->user->can(UserManager::PERMISSION_DELETE_NEWS, ['news' => $model])) {
                                     return '';
                                 }
                                 return Html::a('<span class=\'glyphicon glyphicon-trash\'></span>',

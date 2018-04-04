@@ -8,6 +8,7 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use \app\models\UserManager;
 
 AppAsset::register($this);
 ?>
@@ -45,7 +46,7 @@ AppAsset::register($this);
     } else {
         $items[] = ['label' => 'Профиль', 'url' => ['/user/settings/account']];
         $items[] = ['label' => 'Выйти', 'url' => '/user/security/logout', 'linkOptions' => ['data-method' => 'post']];
-        if (Yii::$app->user->can('manager')) {
+        if (Yii::$app->user->can(UserManager::ROLE_MANAGER)) {
             $items[] = ['label' => 'Панель управления', 'url' => ['/admin/news']];
         }
     }

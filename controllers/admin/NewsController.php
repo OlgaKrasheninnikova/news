@@ -5,6 +5,7 @@ namespace app\controllers\admin;
 use app\helpers\Config;
 use app\models\NewsSearch;
 use app\models\UploadForm;
+use app\models\UserManager;
 use dektrium\user\models\User;
 use Yii;
 use app\models\News;
@@ -42,7 +43,7 @@ class NewsController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['update', 'activation'],
-                        'roles' => ['updateNews'],
+                        'roles' => [UserManager::PERMISSION_UPDATE_NEWS],
                         'roleParams' => function() {
                             return ['news' => News::findOne(['id' => Yii::$app->request->get('id')])];
                         },
@@ -51,7 +52,7 @@ class NewsController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['deleteNews'],
+                        'roles' => [UserManager::PERMISSION_DELETE_NEWS],
                         'roleParams' => function() {
                             return ['news' => News::findOne(['id' => Yii::$app->request->get('id')])];
                         },
@@ -59,7 +60,7 @@ class NewsController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create'],
-                        'roles' => ['admin', 'manager'],
+                        'roles' => [UserManager::ROLE_ADMIN, UserManager::ROLE_MANAGER],
                     ]
                 ],
             ]
@@ -87,7 +88,7 @@ class NewsController extends Controller
             'dataProvider' => $dataProvider,
             'searchModel'  => $searchModel,
             'newItemModel' => new News(),
-            'canCreate' => \Yii::$app->user->can('createNews'),
+            'canCreate' => \Yii::$app->user->can(UserManager::PERMISSION_CREATE_NEWS),
             'smallImgPath' => Config::getInstance()->getSmallImgPath()
         ]);
     }

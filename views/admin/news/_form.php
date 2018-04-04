@@ -18,8 +18,6 @@ use kartik\file\FileInput;
 
     <?= $form->field($model, 'description')->textarea(['maxlength' => true])->label('Описание') ?>
 
-    <?php // $form->field($model, 'image')->fileInput()->label('Изображение') ?>
-
     <?= $form->field($model, 'image')->widget(FileInput::class, [
     'options' => ['accept' => 'image/*', 'id' => 'image-'.$model->id],
     ]); ?>

@@ -4,7 +4,6 @@ namespace app\models;
 
 use app\helpers\Config;
 use dektrium\user\models\User;
-use Yii;
 use yii\imagine\Image;
 use Imagine\Image\Box;
 
@@ -28,6 +27,12 @@ use Imagine\Image\Box;
  */
 class News extends \yii\db\ActiveRecord
 {
+
+    /**
+     * int
+     */
+    const NEWS_IMAGES_QUALITY = 70;
+
     /**
      * @inheritdoc
      */
@@ -139,14 +144,14 @@ class News extends \yii\db\ActiveRecord
             $fullPath = $pathRoot . $this->image->baseName . '.' . $this->image->extension;
             $this->image->saveAs($fullPath);
             $imageName = $this->id . '.' . $this->image->extension;
-            $save = Image::thumbnail($pathRoot . $this->image, $sizes['small_x'], $sizes['small_y'])
+            Image::thumbnail($pathRoot . $this->image, $sizes['small_x'], $sizes['small_y'])
                 ->resize(new Box($sizes['small_x'],$sizes['small_y']))
                 ->save($pathSmall . $imageName,
-                    ['quality' => 70]);
+                    ['quality' => self::NEWS_IMAGES_QUALITY]);
             Image::thumbnail($pathRoot . $this->image, $sizes['big_x'], $sizes['big_y'])
                 ->resize(new Box($sizes['big_x'],$sizes['big_y']))
                 ->save($pathBig . $imageName,
-                    ['quality' => 70]);
+                    ['quality' => self::NEWS_IMAGES_QUALITY]);
             unlink($pathRoot . $this->image->baseName . '.'  . $this->image->extension);
             return $imageName;
         } else {

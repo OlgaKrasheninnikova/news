@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers\user;
 
+use app\models\UserManager;
 use dektrium\user\controllers\AdminController as BaseAdminController;
 use dektrium\user\models\User;
 use dektrium\user\models\UserSearch;
@@ -46,7 +47,7 @@ class AdminController extends BaseAdminController
                     ],
                     [
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => [UserManager::ROLE_ADMIN],
                     ],
                 ],
             ],

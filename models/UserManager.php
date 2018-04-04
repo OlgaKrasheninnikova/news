@@ -2,11 +2,22 @@
 
 namespace app\models;
 
-use dektrium\user\helpers\Password;
-use dektrium\user\models\Token;
 
 class UserManager
 {
+
+    const ROLE_ADMIN = 'admin';
+
+    const ROLE_MANAGER = 'manager';
+
+    const PERMISSION_VIEW_NEWS = 'viewNews';
+    const PERMISSION_CREATE_NEWS = 'createNews';
+    const PERMISSION_UPDATE_NEWS = 'updateNews';
+    const PERMISSION_DELETE_NEWS = 'deleteNews';
+
+    const PERMISSION_UPDATE_OWN_NEWS = 'updateOwnNews';
+    const PERMISSION_DELETE_OWN_NEWS = 'deleteOwnNews';
+
 
     /**
      * {@inheritdoc}

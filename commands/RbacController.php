@@ -2,6 +2,7 @@
 
 namespace app\commands;
 use app\models\User;
+use app\models\UserManager;
 
 
 /**
@@ -17,8 +18,7 @@ class RbacController extends  \yii\console\Controller
      */
     public function actionMakeAdmin($userId)
     {
-        $role = 'admin';
-        echo $this->giveRole($userId, $role);
+        echo $this->giveRole($userId, UserManager::ROLE_ADMIN);
     }
 
     /**
@@ -26,8 +26,7 @@ class RbacController extends  \yii\console\Controller
      */
     public function actionMakeManager($userId)
     {
-        $role = 'manager';
-        echo $this->giveRole($userId, $role);
+        echo $this->giveRole($userId, UserManager::ROLE_MANAGER);
     }
 
 
