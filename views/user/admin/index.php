@@ -74,6 +74,12 @@ $this->title = Yii::t('user', 'Управление пользователями
             'format' => 'html',
         ],
         [
+            'attribute' => 'confirmed_at',
+            'value' => function ($model) {
+                    return $model->confirmed_at ? Yii::t('user', '{0, date, MMMM dd, YYYY HH:mm}', [$model->confirmed_at]) : '-';
+            },
+        ],
+        [
             'attribute' => 'created_at',
             'value' => function ($model) {
                 if (extension_loaded('intl')) {

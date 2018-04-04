@@ -126,7 +126,7 @@ if (YII_ENV_DEV) {
                 'registration' => [
                     'class' => \dektrium\user\controllers\RegistrationController::class,
                     'on ' . \dektrium\user\controllers\RegistrationController::EVENT_AFTER_CONFIRM => function ($e) {
-                        Yii::$app->user->identity->updateAttributes(['last_login_at' => time()]);
+                        if (Yii::$app->user->identity) Yii::$app->user->identity->updateAttributes(['last_login_at' => time()]);
                     }
                 ],
 
